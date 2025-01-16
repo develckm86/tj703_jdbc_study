@@ -56,8 +56,6 @@ public class L04Jtable {
             p.add(jsp);
             frame.add(p);
 
-
-
             frame.setBounds(500,100,600,600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
