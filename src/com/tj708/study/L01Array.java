@@ -1,7 +1,6 @@
 package com.tj708.study;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 public class L01Array {
     public static void main(String[] args) {
@@ -35,5 +34,31 @@ public class L01Array {
         Object[][] data={{10001,"경민",true},{10002,"기원", false},{10003,"승엽",false}};
         //콘솔에 전체를 순환해서 출력!
         //10분 for , iterator
+        System.out.println("\ndata iterator 출력");
+        for(Object[] arr : data) {
+            //Object o=11; => [new Integer(11)>new Object()]
+            //Object s="안녕" => ["안녕" : new String()>new Object()]
+            //기본형을 자료형이 아니기 때문에 Object 가 참조함 기본형의 랩퍼클래스가
+            //자료형으로 생성후 변수가 참조
+            //자료형 객체는 모두가 Object 객체를 포함하고 있기 때문에 변수가 Object
+            //만 참조
+            for(Object obj : arr) {
+                System.out.print(obj+",");
+            }
+        }
+        System.out.println("\ndata for i j 출력");
+        for(int i=0; i<data.length;i++){
+            for(int j=0; j<data[i].length;j++){
+                System.out.print(data[i][j]+",");
+            }
+        }
+        //배열 == 줄서있는 사람
+        //데이터가 빠지면 뒤쪽 모든 데이터를 앞으로 이동
+        List list=new ArrayList();
+        //LinkedList : 번호표(linked)를 받아서 줄서있는 사람
+        list=new LinkedList();
+        //객체가 부모타입의 변수를 참조가능한 것
+
+
     }
 }
