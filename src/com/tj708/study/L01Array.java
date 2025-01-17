@@ -59,6 +59,50 @@ public class L01Array {
         list=new LinkedList();
         //객체가 부모타입의 변수를 참조가능한 것
 
-
+        //ArrayList == js Array
+        list.add(10);
+        list.add(20);
+        list.add("30");
+        list.add(true);
+        list.add(new Date());
+        //ArrayList 는 길이 변경이 가능
+        System.out.println("\nlist 출력");
+        System.out.println(list);
+        //List는 기본으로 Object 를 참조한다
+        //데이터 타입을 고정(자료형) : Generic <>
+        List<Integer> nums4=new ArrayList<>();
+        nums4.add(1);
+        //nums4.add("2");
+        //class List<E>{   E=Integer
+        //    Object value;
+        //    E value2;
+        //    add(E e){}
+        //}
+        nums4.add(2);
+        nums4.add(3);
+        nums4.add(4);
+        for(int i=0; i< nums4.size(); i++){
+            System.out.println(nums4.get(i));
+        }
+        int nn=Integer.valueOf(10);
+        //nn=10;
+        for(Integer num : nums4){
+            System.out.println(num+",");
+        }
+        List<int[]> numArr=new ArrayList<>(); //2차원 배열
+        //numArr.add({1,2,3,4}); //[1,2,3,4] x => new Int{1,2,3,4}
+        numArr.add(new int[]{1,2,3,4,5});
+        int [] nums5={6,7,8,9,10,11}; //선언즉시 대입할때는 new int[] 를 생략
+        numArr.add(nums5);
+        numArr.add(new int[]{11,12,13,14,15});
+        //numArr 모든 수를 더하세요!
+        int sum=0;
+        for(int[] arr : numArr){
+            for(int num : arr){
+                sum+=num;
+            }
+        }
+        System.out.println("\nnumArr의 모든 수를 더한 결과");
+        System.out.println(sum);
     }
 }
