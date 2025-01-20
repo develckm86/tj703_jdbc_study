@@ -53,7 +53,8 @@ public class EmployeesDao implements CRUD<EmployeesDto> {
 
     public static void main(String[] args) throws Exception {
         //jdbc
-        EmployeesDao dao=new EmployeesDao();
+        CRUD dao=new EmployeesDao();
         System.out.println(dao.findById(10002));
     }
+
 }

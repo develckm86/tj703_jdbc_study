@@ -13,8 +13,12 @@ public class EmployeesDB {
     private static final String DRIVER_CLASS="com.mysql.cj.jdbc.Driver";
     private static Connection connection;
     //**Connection 은 접속을 계속 유지하는 Connection pool 에 접합한 클래스가 아니다.
+
+
     public static Connection getConnection() throws Exception {
         if(connection!=null && !connection.isClosed()){ return connection; }
+
+
         //singleton pattern 에서 꼭 구현해야하는 코드
         Class.forName(DRIVER_CLASS);
         connection = DriverManager.getConnection(URL,USER,PASSWORD);
