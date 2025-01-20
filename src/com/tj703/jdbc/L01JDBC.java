@@ -1,4 +1,4 @@
-package com.tj708.jdbc;
+package com.tj703.jdbc;
 //JDBC : java로 db 를 접속하는 방법, 클래스, 패키지, 라이브러리
 //mysql-connector-j : 자바에서 db 에 접속할때 mysql db 접속에 필요한 패키지들
 //java.sql  : JDBC 패키지 jdk

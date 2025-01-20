@@ -1,4 +1,4 @@
-package com.tj708.jdbc;
+package com.tj703.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
