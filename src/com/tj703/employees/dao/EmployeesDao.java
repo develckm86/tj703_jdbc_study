@@ -9,14 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-public class EmployeesDao implements CRUD<EmployeesDto> {
+public class EmployeesDao implements CRUD<EmployeesDto,Integer> {
     @Override
     public List<EmployeesDto> findAll() throws Exception {
         return List.of();
     }
 
     @Override
-    public EmployeesDto findById(int id) throws Exception {
+    public EmployeesDto findById(Integer id) throws Exception {
         EmployeesDto dto=null;
         String sql="select * from employees where emp_no=?";
         Connection conn= EmployeesDB.getConnection();
@@ -47,7 +47,7 @@ public class EmployeesDao implements CRUD<EmployeesDto> {
     }
 
     @Override
-    public int delete(int id) throws Exception {
+    public int delete(Integer id) throws Exception {
         return 0;
     }
 

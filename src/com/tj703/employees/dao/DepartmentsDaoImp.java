@@ -69,7 +69,7 @@ public class DepartmentsDaoImp implements DepartmentsDao {
     }
 
     @Override
-    public DepartmentsDto findById(int id) throws Exception {
+    public DepartmentsDto findById(String id) throws Exception {
         return null;
     }
 
@@ -84,7 +84,7 @@ public class DepartmentsDaoImp implements DepartmentsDao {
     }
 
     @Override
-    public int delete(int id) throws Exception {
+    public int delete(String id) throws Exception {
         return 0;
     }
     public void close(){
