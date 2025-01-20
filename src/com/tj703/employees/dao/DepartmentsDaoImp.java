@@ -70,22 +70,50 @@ public class DepartmentsDaoImp implements DepartmentsDao {
 
     @Override
     public DepartmentsDto findById(String id) throws Exception {
-        return null;
+        DepartmentsDto dto=null;
+        String sql="SELECT * FROM departments WHERE dept_no=?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, id);
+        rs = ps.executeQuery();
+        if(rs.next()){
+            dto=new DepartmentsDto();
+            dto.setDeptNo(rs.getString("dept_no"));
+            dto.setDeptName(rs.getString("dept_name"));
+        }
+        return dto;
     }
 
     @Override
     public int create(DepartmentsDto obj) throws Exception {
-        return 0;
+        int create=0;
+        String sql="INSERT INTO departments (dept_no,dept_name) VALUES(?,?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, obj.getDeptNo());
+        ps.setString(2, obj.getDeptName());
+        create=ps.executeUpdate();
+
+        return create;
     }
 
     @Override
     public int update(DepartmentsDto obj) throws Exception {
-        return 0;
+        int update=0;
+        String sql="UPDATE departments SET dept_name=? WHERE dept_no=?";
+        ps=conn.prepareStatement(sql);
+        ps.setString(1, obj.getDeptName());
+        ps.setString(2, obj.getDeptNo());
+        update=ps.executeUpdate();
+        return update;
     }
 
     @Override
     public int delete(String id) throws Exception {
-        return 0;
+        int delete=0;
+        String sql="DELETE FROM departments WHERE dept_no=?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, id);
+        delete=ps.executeUpdate();
+        return delete;
     }
     public void close(){
         try {
@@ -104,6 +132,22 @@ public class DepartmentsDaoImp implements DepartmentsDao {
             System.out.println(dao.findAll());
             System.out.println(dao.findByDeptName("Human Resources"));
             System.out.println(dao.findByDeptNameLike("Re"));
+            //등록 테스트
+            DepartmentsDto dto=new DepartmentsDto();
+            dto.setDeptName("경민 수업 부서");
+            dto.setDeptNo("d111");
+            System.out.println(dao.create(dto));
+            System.out.println(dao.findById("d111"));
+
+            //수정 테스트
+            dto.setDeptName("경민 jdbc 수업");
+            System.out.println(dao.update(dto));
+            System.out.println(dao.findById("d111"));
+
+            //삭제 테스트
+            System.out.println(dao.delete("d111"));
+            System.out.println(dao.findById("d111"));
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
