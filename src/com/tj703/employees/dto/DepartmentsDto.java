@@ -1,6 +1,6 @@
 package com.tj703.employees.dto;
 
-public class DetpartmentsDto {
+public class DepartmentsDto {
     String deptNo;
     String deptName;
 

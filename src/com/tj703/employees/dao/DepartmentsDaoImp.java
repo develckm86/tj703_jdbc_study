@@ -1,7 +1,7 @@
 package com.tj703.employees.dao;
 
 import com.tj703.employees.EmployeesDB;
-import com.tj703.employees.dto.DetpartmentsDto;
+import com.tj703.employees.dto.DepartmentsDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,13 +20,14 @@ public class DepartmentsDaoImp implements DepartmentsDao {
     }
 
     @Override
-    public DetpartmentsDto findByDeptName(String deptName) throws Exception {
-        DetpartmentsDto dto=null;
-        String sql="select * from departments";
+    public DepartmentsDto findByDeptName(String deptName) throws Exception {
+        DepartmentsDto dto=null;
+        String sql="SELECT * FROM departments WHERE dept_name=?";
         ps = conn.prepareStatement(sql);
+        ps.setString(1, deptName);
         rs = ps.executeQuery();
         if(rs.next()){
-            dto=new DetpartmentsDto();
+            dto=new DepartmentsDto();
             dto.setDeptNo(rs.getString("dept_no"));
             dto.setDeptName(rs.getString("dept_name"));
         }
@@ -34,19 +35,32 @@ public class DepartmentsDaoImp implements DepartmentsDao {
     }
 
     @Override
-    public DetpartmentsDto findByDeptNameLike(String deptName) throws Exception {
-        return null;
+    public List<DepartmentsDto> findByDeptNameLike(String deptName) throws Exception {
+        List<DepartmentsDto> findByDeptNameLike=null;
+
+        String sql="SELECT * FROM departments WHERE dept_name LIKE CONCAT('%',?,'%')";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, deptName);
+        rs = ps.executeQuery();
+        findByDeptNameLike=new ArrayList<>();
+        while (rs.next()){
+            DepartmentsDto dto=new DepartmentsDto();
+            dto.setDeptNo(rs.getString("dept_no"));
+            dto.setDeptName(rs.getString("dept_name"));
+            findByDeptNameLike.add(dto);
+        }
+        return findByDeptNameLike;
     }
 
     @Override
-    public List<DetpartmentsDto> findAll() throws Exception {
-        List<DetpartmentsDto> findAll=null;
+    public List<DepartmentsDto> findAll() throws Exception {
+        List<DepartmentsDto> findAll=null;
         String sql="select * from departments";
         ps = conn.prepareStatement(sql);
         rs = ps.executeQuery();
-        findAll=new ArrayList<DetpartmentsDto>();
+        findAll=new ArrayList<DepartmentsDto>();
         while(rs.next()){
-            DetpartmentsDto dto=new DetpartmentsDto();
+            DepartmentsDto dto=new DepartmentsDto();
             dto.setDeptNo(rs.getString("dept_no"));
             dto.setDeptName(rs.getString("dept_name"));
             findAll.add(dto);
@@ -55,17 +69,17 @@ public class DepartmentsDaoImp implements DepartmentsDao {
     }
 
     @Override
-    public DetpartmentsDto findById(int id) throws Exception {
+    public DepartmentsDto findById(int id) throws Exception {
         return null;
     }
 
     @Override
-    public int create(DetpartmentsDto obj) throws Exception {
+    public int create(DepartmentsDto obj) throws Exception {
         return 0;
     }
 
     @Override
-    public int update(DetpartmentsDto obj) throws Exception {
+    public int update(DepartmentsDto obj) throws Exception {
         return 0;
     }
 
@@ -88,6 +102,9 @@ public class DepartmentsDaoImp implements DepartmentsDao {
         try {
             dao=new DepartmentsDaoImp();
             System.out.println(dao.findAll());
+            System.out.println(dao.findByDeptName("Human Resources"));
+            System.out.println(dao.findByDeptNameLike("Re"));
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }finally {

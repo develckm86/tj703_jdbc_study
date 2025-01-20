@@ -1,10 +1,12 @@
 package com.tj703.employees.dao;
 
 import com.tj703.employees.CRUD;
-import com.tj703.employees.dto.DetpartmentsDto;
+import com.tj703.employees.dto.DepartmentsDto;
 
-public interface DepartmentsDao extends CRUD<DetpartmentsDto> {
-    DetpartmentsDto findByDeptName(String deptName) throws Exception;
-    DetpartmentsDto findByDeptNameLike(String deptName) throws Exception;
+import java.util.List;
+
+public interface DepartmentsDao extends CRUD<DepartmentsDto> {
+    DepartmentsDto findByDeptName(String deptName) throws Exception;
+    List<DepartmentsDto> findByDeptNameLike(String deptName) throws Exception;
     void close();
 }
