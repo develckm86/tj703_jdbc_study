@@ -2,6 +2,7 @@ package com.tj703.employees.dao;
 
 import com.tj703.employees.CRUD;
 import com.tj703.employees.EmployeesDB;
+import com.tj703.employees.dto.DepartmentsDto;
 import com.tj703.employees.dto.EmployeesDto;
 import com.tj703.employees.dto.SalariesDto;
 
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>,EmplyeesDao {
     private Connection conn;
@@ -91,24 +93,40 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>,EmplyeesDao {
         rs=ps.executeQuery();
         empList=new ArrayList<>();//////////////////////////////////////
         while (rs.next()){
-            EmployeesDto emp=new EmployeesDto();
-            SalariesDto sal=new SalariesDto();
-            emp.setHireDate(rs.getDate("hire_date"));
-            emp.setGender((char) rs.getByte("gender"));
-            emp.setFirstName(rs.getString("first_name"));
-            emp.setLastName(rs.getString("last_name"));
-            emp.setEmpNo(rs.getInt("emp_no"));
-            emp.setBirthDate(rs.getDate("birth_date"));
-
-            sal.setEmpNo(rs.getInt("emp_no"));
-            sal.setSalary(rs.getInt("salary"));
-            sal.setFromDate(rs.getDate("from_date"));
-            sal.setToDate(rs.getDate("to_date"));
-            emp.setSalaries(sal);
-            empList.add(emp);///////////////////////////////////////
+            int empNo=rs.getInt("emp_no");
+            boolean b=empList.stream().anyMatch(emp->emp.getEmpNo()==empNo);
+            System.out.println(empNo+","+b+","+empList);
+            if(!b){
+                EmployeesDto emp=new EmployeesDto();
+                emp.setHireDate(rs.getDate("hire_date"));
+                emp.setGender((char) rs.getByte("gender"));
+                emp.setFirstName(rs.getString("first_name"));
+                emp.setLastName(rs.getString("last_name"));
+                emp.setEmpNo(rs.getInt("emp_no"));
+                emp.setBirthDate(rs.getDate("birth_date"));
+                List<SalariesDto> salList=new ArrayList<>();
+                SalariesDto sal=new SalariesDto();
+                sal.setEmpNo(rs.getInt("s.emp_no"));
+                sal.setSalary(rs.getInt("s.salary"));
+                sal.setFromDate(rs.getDate("s.from_date"));
+                sal.setToDate(rs.getDate("s.to_date"));
+                salList.add(sal);
+                emp.setSalariesList(salList);
+                empList.add(emp);
+            }else{
+                List<EmployeesDto> emps=empList.stream()
+                        .filter(emp->emp.getEmpNo()==empNo)
+                        .collect(Collectors.toList());
+                List<SalariesDto> salList=emps.get(0).getSalariesList();
+                SalariesDto sal=new SalariesDto();
+                sal.setEmpNo(rs.getInt("emp_no"));
+                sal.setSalary(rs.getInt("salary"));
+                sal.setFromDate(rs.getDate("from_date"));
+                sal.setToDate(rs.getDate("to_date"));
+                salList.add(sal);
+                emps.get(0).setSalariesList(salList);
+            }
         }
-
-
         return empList;
     }
     public static void main(String[] args) throws Exception {

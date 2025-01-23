@@ -1,6 +1,7 @@
 package com.tj703.employees.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class EmployeesDto {
     /*emp_no
@@ -18,6 +19,15 @@ public class EmployeesDto {
 
     //emp: sal = 1:N
     private SalariesDto salaries;
+    private List<SalariesDto> salariesList;
+
+    public List<SalariesDto> getSalariesList() {
+        return salariesList;
+    }
+
+    public void setSalariesList(List<SalariesDto> salariesList) {
+        this.salariesList = salariesList;
+    }
 
     public SalariesDto getSalaries() {
         return salaries;
@@ -84,7 +94,7 @@ public class EmployeesDto {
                 ", lastName:'" + lastName + '\'' +
                 ", gender:" + gender +
                 ", hireDate:" + hireDate +
-                ", salaries:" + salaries +
+                ", salariesList:" + salariesList +
                 "}\n";
     }
 }
