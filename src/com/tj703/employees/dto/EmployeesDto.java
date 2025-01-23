@@ -16,6 +16,17 @@ public class EmployeesDto {
     private char gender;
     private Date hireDate;
 
+    //emp: sal = 1:N
+    private SalariesDto salaries;
+
+    public SalariesDto getSalaries() {
+        return salaries;
+    }
+
+    public void setSalaries(SalariesDto salaries) {
+        this.salaries = salaries;
+    }
+
     public int getEmpNo() {
         return empNo;
     }
@@ -73,6 +84,7 @@ public class EmployeesDto {
                 ", lastName:'" + lastName + '\'' +
                 ", gender:" + gender +
                 ", hireDate:" + hireDate +
-                '}';
+                ", salaries:" + salaries +
+                "}\n";
     }
 }
