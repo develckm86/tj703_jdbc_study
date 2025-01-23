@@ -18,7 +18,6 @@ public class EmployeesDto {
     private Date hireDate;
 
     //emp: sal = 1:N
-    private SalariesDto salaries;
     private List<SalariesDto> salariesList;
 
     public List<SalariesDto> getSalariesList() {
@@ -27,14 +26,6 @@ public class EmployeesDto {
 
     public void setSalariesList(List<SalariesDto> salariesList) {
         this.salariesList = salariesList;
-    }
-
-    public SalariesDto getSalaries() {
-        return salaries;
-    }
-
-    public void setSalaries(SalariesDto salaries) {
-        this.salaries = salaries;
     }
 
     public int getEmpNo() {

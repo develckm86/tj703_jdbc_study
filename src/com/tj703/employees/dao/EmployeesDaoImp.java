@@ -91,37 +91,43 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>,EmplyeesDao {
         ps.setInt(1,start);
         ps.setInt(2,size);
         rs=ps.executeQuery();
-        empList=new ArrayList<>();//////////////////////////////////////
-        while (rs.next()){
+        empList=new ArrayList<>();
+        while(rs.next()){
+            //10001
+            //10001
             int empNo=rs.getInt("emp_no");
-            List<EmployeesDto> emps=empList.stream()
-                    .filter(emp->emp.getEmpNo()==empNo)
-                    .collect(Collectors.toList());
-            int length=emps.size();
-            EmployeesDto emp=null; //없으면 null
-            List<SalariesDto> salList=null;
-            if(length==0){
+            boolean exist=false;
+            EmployeesDto emp=null;
+            for(EmployeesDto dto:empList){
+                if(dto.getEmpNo()==empNo){
+                    emp=dto;
+                    exist=true;
+                    break; //반복문을 종료
+                }
+            }
+            List<SalariesDto> salariesList=null;
+            if(!exist){//해당 객체의최초 등록
                 emp=new EmployeesDto();
-                emp.setHireDate(rs.getDate("hire_date"));
-                emp.setGender((char) rs.getByte("gender"));
+                emp.setEmpNo(empNo);
+                emp.setBirthDate(rs.getDate("birth_date"));
                 emp.setFirstName(rs.getString("first_name"));
                 emp.setLastName(rs.getString("last_name"));
-                emp.setEmpNo(rs.getInt("emp_no"));
-                emp.setBirthDate(rs.getDate("birth_date"));
-                salList=new ArrayList<>();
+                emp.setGender((char) rs.getByte("gender"));
+                emp.setHireDate(rs.getDate("hire_date"));
+                salariesList=new ArrayList<>();
+                emp.setSalariesList(salariesList);
                 empList.add(emp);
             }else{
-                emp=emps.get(0);
-                salList=emp.getSalariesList();
+                salariesList=emp.getSalariesList();
             }
             SalariesDto sal=new SalariesDto();
-            sal.setEmpNo(rs.getInt("emp_no"));
+            sal.setEmpNo(empNo);
             sal.setSalary(rs.getInt("salary"));
             sal.setFromDate(rs.getDate("from_date"));
             sal.setToDate(rs.getDate("to_date"));
-            salList.add(sal);
-            emp.setSalariesList(salList);
+            salariesList.add(sal);
         }
+
         return empList;
     }
     public static void main(String[] args) throws Exception {
