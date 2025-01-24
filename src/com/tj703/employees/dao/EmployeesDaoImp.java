@@ -4,6 +4,7 @@ import com.tj703.employees.CRUD;
 import com.tj703.employees.EmployeesDB;
 import com.tj703.employees.dto.DepartmentsDto;
 import com.tj703.employees.dto.EmployeesDto;
+import com.tj703.employees.dto.Order;
 import com.tj703.employees.dto.SalariesDto;
 
 import java.sql.Connection;
@@ -131,13 +132,14 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>, EmployeesDao
     }
 
     @Override
-    public List<EmployeesDto> findWithSalary(int start, int size, String orderBy) throws Exception {
+    public List<EmployeesDto> findWithSalary(int start, int size, Order.Column column, Order.Direct direct) throws Exception {
         List<EmployeesDto> empList=null;
-        String sql="SELECT * FROM employees NATURAL JOIN salaries ORDER BY ? LIMIT ?,?";
+        String sql="SELECT * FROM employees NATURAL JOIN salaries " +
+                "ORDER BY  " + column + " " +direct + " "+
+                "LIMIT ?,?";
         ps=conn.prepareStatement(sql);
-        ps.setString(1,orderBy);
-        ps.setInt(2,start);
-        ps.setInt(3,size);
+        ps.setInt(1,start);
+        ps.setInt(2,size);
         rs=ps.executeQuery();
         empList=new ArrayList<>();
         while(rs.next()){
@@ -166,11 +168,10 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>, EmployeesDao
                 "SELECT e.*,d.* FROM employees e " +
                     "NATURAL JOIN dept_emp de " +
                     "NATURAL JOIN departments d " +
-                    "ORDER BY ? LIMIT ?,?";
+                    "ORDER BY "+orderBy+" LIMIT ?,?";
         ps=conn.prepareStatement(sql);
-        ps.setString(1,orderBy);
-        ps.setInt(2,start);
-        ps.setInt(3,size);
+        ps.setInt(1,start);
+        ps.setInt(2,size);
         rs=ps.executeQuery();
         empList=new ArrayList<>();
         while(rs.next()){
@@ -204,7 +205,9 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>, EmployeesDao
         //System.out.println(dao.findAll());
         //System.out.println(dao.findWithSalaries(0,50));
         //System.out.println(dao.findWithSalary(0,10,"emp_no"));
-        System.out.println(dao.findWithDept(0,100,"dept_no"));
+        //System.out.println(dao.findWithDept(0,100,"dept_no"));
+        System.out.println(dao.findWithSalary(0,100,Order.Column.last_name, Order.Direct.ASC));
+
 
     }
 }

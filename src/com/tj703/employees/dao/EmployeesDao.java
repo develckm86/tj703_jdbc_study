@@ -1,6 +1,7 @@
 package com.tj703.employees.dao;
 
 import com.tj703.employees.dto.EmployeesDto;
+import com.tj703.employees.dto.Order;
 
 import java.util.List;
 
@@ -13,8 +14,7 @@ public interface EmployeesDao {
     //1:1 One To One : 1개 table을 2개로 분리한 경우인데 거의없다.
 
     //1:N 이지만 1:1인거 처럼출력
-    List<EmployeesDto> findWithSalary(int start, int size, String orderBy) throws Exception;
-
+    List<EmployeesDto> findWithSalary(int start, int size, Order.Column column, Order.Direct direct) throws Exception;
     //N:1 Many To One : dept To emp
     List<EmployeesDto> findWithDept(int start,int size, String orderBy) throws Exception;
 
