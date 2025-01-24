@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class L06SteamEX {
+public class L06StreamEX {
     public static void main(String[] args) throws Exception {
         EmployeesDaoImp empDao=new EmployeesDaoImp();
         List<EmployeesDto> empList=empDao.findAll();

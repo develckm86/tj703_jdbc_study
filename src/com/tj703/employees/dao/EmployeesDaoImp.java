@@ -11,9 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>,EmplyeesDao {
+public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>, EmployeesDao {
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
@@ -130,11 +129,82 @@ public class EmployeesDaoImp implements CRUD<EmployeesDto,Integer>,EmplyeesDao {
 
         return empList;
     }
+
+    @Override
+    public List<EmployeesDto> findWithSalary(int start, int size, String orderBy) throws Exception {
+        List<EmployeesDto> empList=null;
+        String sql="SELECT * FROM employees NATURAL JOIN salaries ORDER BY ? LIMIT ?,?";
+        ps=conn.prepareStatement(sql);
+        ps.setString(1,orderBy);
+        ps.setInt(2,start);
+        ps.setInt(3,size);
+        rs=ps.executeQuery();
+        empList=new ArrayList<>();
+        while(rs.next()){
+            EmployeesDto emp=new EmployeesDto();
+            emp.setEmpNo(rs.getInt("emp_no"));
+            emp.setBirthDate(rs.getDate("birth_date"));
+            emp.setFirstName(rs.getString("first_name"));
+            emp.setLastName(rs.getString("last_name"));
+            emp.setGender((char) rs.getByte("gender"));
+            emp.setHireDate(rs.getDate("hire_date"));
+            SalariesDto sal=new SalariesDto();
+            sal.setEmpNo(rs.getInt("emp_no"));
+            sal.setSalary(rs.getInt("salary"));
+            sal.setFromDate(rs.getDate("from_date"));
+            sal.setToDate(rs.getDate("to_date"));
+            emp.setSalary(sal);
+            empList.add(emp);
+        }
+        return empList;
+    }
+
+    @Override
+    public List<EmployeesDto> findWithDept(int start, int size, String orderBy) throws Exception {
+        List<EmployeesDto> empList=null;
+        String sql=
+                "SELECT e.*,d.* FROM employees e " +
+                    "NATURAL JOIN dept_emp de " +
+                    "NATURAL JOIN departments d " +
+                    "ORDER BY ? LIMIT ?,?";
+        ps=conn.prepareStatement(sql);
+        ps.setString(1,orderBy);
+        ps.setInt(2,start);
+        ps.setInt(3,size);
+        rs=ps.executeQuery();
+        empList=new ArrayList<>();
+        while(rs.next()){
+            EmployeesDto emp=new EmployeesDto();
+            emp.setEmpNo(rs.getInt("emp_no"));
+            emp.setBirthDate(rs.getDate("birth_date"));
+            emp.setFirstName(rs.getString("first_name"));
+            emp.setLastName(rs.getString("last_name"));
+            emp.setGender((char) rs.getByte("gender"));
+            emp.setHireDate(rs.getDate("hire_date"));
+            DepartmentsDto dept=new DepartmentsDto();
+            dept.setDeptNo(rs.getString("dept_no"));
+            dept.setDeptName(rs.getString("dept_name"));
+            emp.setDepartment(dept);
+            empList.add(emp);
+        }
+        return empList;
+    }
+
+    @Override
+    public List<EmployeesDto> findWithDeptAndSalary(int start, int size, String orderBy) throws Exception {
+        List<EmployeesDto> empList=null;
+        //
+        return empList;
+    }
+
     public static void main(String[] args) throws Exception {
         //jdbc
         EmployeesDaoImp dao=new EmployeesDaoImp();
         //System.out.println(dao.findById(10002));
         //System.out.println(dao.findAll());
-        System.out.println(dao.findWithSalaries(0,50));
+        //System.out.println(dao.findWithSalaries(0,50));
+        //System.out.println(dao.findWithSalary(0,10,"emp_no"));
+        System.out.println(dao.findWithDept(0,100,"dept_no"));
+
     }
 }

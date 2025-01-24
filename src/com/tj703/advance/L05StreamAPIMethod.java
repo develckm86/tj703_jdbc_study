@@ -14,7 +14,7 @@ public class L05StreamAPIMethod {
         * .noneMatch(Predicate (a)->a>0) : 모두가 틀리면 true
         * .findFirst() : 0번째 요소 반환
         * .findAny() : 랜덤하게 1개 반환
-        * .collect() : ??
+        * .collect() : Stream 자료를 가공해서 Collect 나 Array 등등의 자료로 변환 후 반환
         *
         * 중간연산자 : 기존의 steam 자료를 변환한 새로운 steam 자료로 반환 때문에
         *   출력이나 결과(최종연산자)를 확인 할 수 없다.

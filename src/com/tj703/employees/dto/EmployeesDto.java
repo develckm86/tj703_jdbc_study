@@ -19,6 +19,26 @@ public class EmployeesDto {
 
     //emp: sal = 1:N
     private List<SalariesDto> salariesList;
+    //1:N 인데 1:1 인거 처럼 출력
+    private SalariesDto salary;
+    //N:1
+    private DepartmentsDto department;
+
+    public SalariesDto getSalary() {
+        return salary;
+    }
+
+    public void setSalary(SalariesDto salary) {
+        this.salary = salary;
+    }
+
+    public DepartmentsDto getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentsDto department) {
+        this.department = department;
+    }
 
     public List<SalariesDto> getSalariesList() {
         return salariesList;
@@ -86,6 +106,8 @@ public class EmployeesDto {
                 ", gender:" + gender +
                 ", hireDate:" + hireDate +
                 ", salariesList:" + salariesList +
+                ", salary:" + salary +
+                ", department:" + department +
                 "}\n";
     }
 }
