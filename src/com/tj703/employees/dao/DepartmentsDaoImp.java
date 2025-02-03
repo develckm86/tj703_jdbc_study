@@ -2,6 +2,7 @@ package com.tj703.employees.dao;
 
 import com.tj703.employees.EmployeesDB;
 import com.tj703.employees.dto.DepartmentsDto;
+import com.tj703.employees.dto.DeptField;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,6 +51,24 @@ public class DepartmentsDaoImp implements DepartmentsDao {
             findByDeptNameLike.add(dto);
         }
         return findByDeptNameLike;
+    }
+
+    @Override
+    public List<DepartmentsDto> findAll(DeptField field, DeptField.Direct direct, int index, int size) throws Exception {
+        List<DepartmentsDto> findAll=null;
+        String sql="SELECT * FROM departments ORDER BY "+field+" "+direct+" limit ?, ?";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, index);
+        ps.setInt(2, size);
+        rs = ps.executeQuery();
+        findAll=new ArrayList<>();
+        while (rs.next()){
+            DepartmentsDto dto=new DepartmentsDto();
+            dto.setDeptNo(rs.getString("dept_no"));
+            dto.setDeptName(rs.getString("dept_name"));
+            findAll.add(dto);
+        }
+        return findAll;
     }
 
     @Override
@@ -129,6 +148,8 @@ public class DepartmentsDaoImp implements DepartmentsDao {
         DepartmentsDaoImp dao=null;
         try {
             dao=new DepartmentsDaoImp();
+            System.out.println(dao.findAll(DeptField.dept_no,DeptField.Direct.ASC,0,10));
+
             System.out.println(dao.findAll());
             System.out.println(dao.findByDeptName("Human Resources"));
             System.out.println(dao.findByDeptNameLike("Re"));

@@ -62,8 +62,5 @@ public class L07StreamEX2 {
                 .collect(Collectors.toList());
         System.out.println(sums);
 
-
-
-
     }
 }
