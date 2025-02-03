@@ -2,13 +2,12 @@ package com.tj703.advance;
 //java.sql.* jdbc package : java에서 제공하는 db 접속 클래스 제공
 import com.tj703.employees.dto.EmployeesDto;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 //import com.mysql.cj.jdbc.Driver;
 
-public class L08JDBCEnum {
+public class L09JDBCEnum {
     enum EmployeeField{
         EMP_NO,FIRST_NAME,LAST_NAME,BIRTH_DATE,HIRE_DATE,GENDER;
 
